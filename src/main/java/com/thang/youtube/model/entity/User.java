@@ -28,7 +28,7 @@ public class User {
 
     private String avatar;
 
-    private Date currentDate;
+    private Date dateCreated;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role")

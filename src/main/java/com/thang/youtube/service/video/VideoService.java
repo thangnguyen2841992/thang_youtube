@@ -50,7 +50,7 @@ public class VideoService implements IVideoService{
     public Video saveVideo(VideoForm videoForm) {
         Video newVideo = new Video();
         newVideo.setUrl(videoForm.getUrl());
-        newVideo.setCurrentDate(new Date());
+        newVideo.setDateCreated(new Date());
         Optional<User> userOptional = this.userService.getById(videoForm.getUserId());
         if (userOptional.isPresent()) {
             newVideo.setUser(userOptional.get());

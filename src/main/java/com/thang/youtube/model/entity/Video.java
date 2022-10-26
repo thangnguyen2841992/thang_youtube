@@ -19,7 +19,7 @@ public class Video {
 
     private String url;
 
-    private Date currentDate;
+    private Date dateCreated;
 
     @ManyToOne
     private PlayList playList;

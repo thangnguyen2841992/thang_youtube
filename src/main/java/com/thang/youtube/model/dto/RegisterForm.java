@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class RegisterForm {
-    private String username;
 
     private String password;
 

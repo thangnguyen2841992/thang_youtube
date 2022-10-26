@@ -63,7 +63,7 @@ public class UserService implements IUserService {
         user.setAvatar("default-avatar.jpg");
         user.setEmail("admin@gmail.com");
         user.setPhone("0394910426");
-        user.setCurrentDate(new Date());
+        user.setDateCreated(new Date());
         return userRepository.save(user);
     }
 
@@ -77,7 +77,7 @@ public class UserService implements IUserService {
         user.setPassword(encodedPassword);
         user.setRoles(roles);
         user.setAvatar("default-avatar.jpg");
-        user.setCurrentDate(new Date());
+        user.setDateCreated(new Date());
         return userRepository.save(user);
     }
 

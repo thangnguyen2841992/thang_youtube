@@ -40,20 +40,20 @@ public class AuthRestController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginForm loginForm) {
-        Optional<User> currentUser = userService.findByUsername(loginForm.getUsername());
+        Optional<User> currentUser = userService.findByEmail(loginForm.getEmail());
         if (!currentUser.isPresent()) {
-            return new ResponseEntity<>(new Message("Tài khoản không tồn tại!"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new Message("Email không tồn tại!"), HttpStatus.BAD_REQUEST);
         }
         boolean matchPassword = passwordEncoder.matches(loginForm.getPassword(), currentUser.get().getPassword());
         if (!matchPassword) {
             Message message = new Message("Mật khẩu không đúng");
             return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
         }
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginForm.getUsername(), loginForm.getPassword()));
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(currentUser.get().getUsername(), loginForm.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtProvider.generateTokenLogin(authentication);
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        return ResponseEntity.ok(new JwtResponse(jwt, currentUser.get().getId(), currentUser.get().getUsername(), userDetails.getAuthorities()));
+        return ResponseEntity.ok(new JwtResponse(jwt, currentUser.get().getId(), currentUser.get().getEmail(), userDetails.getAuthorities()));
     }
 
     @PostMapping("/register")
@@ -62,20 +62,25 @@ public class AuthRestController {
         if (!confirmPasswordMathch) {
             return new ResponseEntity<>(new Message("Mật khẩu không trùng khớp!"), HttpStatus.BAD_REQUEST);
         }
-        Optional<User> userOptional = this.userService.findByUsername(registerForm.getUsername());
-        if (userOptional.isPresent()) {
-            return new ResponseEntity<>(new Message("Tài khoản đã tồn tại!"), HttpStatus.BAD_REQUEST);
-        }
         Optional<User> userOptional1 = this.userService.findByEmail(registerForm.getEmail());
         if (userOptional1.isPresent()) {
-            return new ResponseEntity<>(new Message("Tài khoản đã tồn tại!"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new Message("Email đã tồn tại!"), HttpStatus.BAD_REQUEST);
         }
         Optional<User> userOptional2 = this.userService.findByPhone(registerForm.getPhone());
         if (userOptional2.isPresent()) {
-            return new ResponseEntity<>(new Message("Tài khoản đã tồn tại!"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new Message("Số điện thoại đã tồn tại!"), HttpStatus.BAD_REQUEST);
         }
         User newUser = new User();
-        newUser.setUsername(registerForm.getUsername());
+        int index = 0;
+        String s = registerForm.getEmail();
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == '@'){
+                index = i;
+                break;
+            }
+        }
+        String username = s.substring(0, index);
+        newUser.setUsername(username);
         newUser.setPassword(registerForm.getPassword());
         newUser.setPhone(registerForm.getPhone());
         newUser.setEmail(registerForm.getEmail());
