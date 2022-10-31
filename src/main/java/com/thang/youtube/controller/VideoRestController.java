@@ -26,6 +26,14 @@ public class VideoRestController {
         }
         return new ResponseEntity<>(videos, HttpStatus.OK);
     }
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<?> getAllVideoByUser(@PathVariable Long userId) {
+        List<Video> videos = this.videoService.getVideoByUser_Id(userId);
+        if (videos.size() == 0) {
+            return new ResponseEntity<>(new Message("Không có video nào!"), HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(videos, HttpStatus.OK);
+    }
     @PostMapping
     public ResponseEntity<?> createNewVideo(@RequestBody VideoForm videoForm) {
         Video newVideo = this.videoService.saveVideo(videoForm);

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -58,5 +59,15 @@ public class VideoService implements IVideoService {
         Optional<Hastag> hastagOptional = this.hastagService.getById(videoForm.getHastagId());
         newVideo.setHastag(hastagOptional.get());
         return newVideo;
+    }
+
+    @Override
+    public List<Video> getVideoByUser_Id(Long userId) {
+        return this.videoRepository.getVideoByUser_Id(userId);
+    }
+
+    @Override
+    public List<Video> findAllVideoByHastag(Long userId, Long hastagId) {
+        return this.videoRepository.findAllVideoByHastag(userId, hastagId);
     }
 }
