@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.Optional;
 
 @Service
-public class VideoService implements IVideoService{
+public class VideoService implements IVideoService {
     @Autowired
     private IVideoRepository videoRepository;
     @Autowired
@@ -25,6 +25,7 @@ public class VideoService implements IVideoService{
     private IHastagService hastagService;
     @Autowired
     private IPlayListService playListService;
+
     @Override
     public Iterable<Video> getAll() {
         return this.videoRepository.findAll();
@@ -49,20 +50,13 @@ public class VideoService implements IVideoService{
     @Override
     public Video saveVideo(VideoForm videoForm) {
         Video newVideo = new Video();
+        newVideo.setName(videoForm.getName());
         newVideo.setUrl(videoForm.getUrl());
         newVideo.setDateCreated(new Date());
         Optional<User> userOptional = this.userService.getById(videoForm.getUserId());
-        if (userOptional.isPresent()) {
-            newVideo.setUser(userOptional.get());
-        }
-        Optional<PlayList> playListOptional = this.playListService.getById(videoForm.getPlayListId());
-        if (playListOptional.isPresent()) {
-            newVideo.setPlayList(playListOptional.get());
-        }
+        newVideo.setUser(userOptional.get());
         Optional<Hastag> hastagOptional = this.hastagService.getById(videoForm.getHastagId());
-        if (hastagOptional.isPresent()) {
-            newVideo.setHastag(hastagOptional.get());
-        }
+        newVideo.setHastag(hastagOptional.get());
         return newVideo;
     }
 }
