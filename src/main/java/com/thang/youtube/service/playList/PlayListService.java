@@ -5,6 +5,7 @@ import com.thang.youtube.repository.IPlayListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,5 +30,10 @@ public class PlayListService implements IPlayListService {
     @Override
     public void deleteById(Long id) {
         this.playListRepository.deleteById(id);
+    }
+
+    @Override
+    public List<PlayList> findPlayListByUser_Id(Long userId) {
+        return this.playListRepository.findPlayListByUser_Id(userId);
     }
 }
