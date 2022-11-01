@@ -2,6 +2,7 @@ package com.thang.youtube.controller;
 
 import com.thang.youtube.model.dto.Message;
 import com.thang.youtube.model.dto.VideoForm;
+import com.thang.youtube.model.dto.VideoResponse;
 import com.thang.youtube.model.entity.Video;
 import com.thang.youtube.service.video.IVideoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
@@ -24,7 +26,8 @@ public class VideoRestController {
         if (videos.size() == 0) {
             return new ResponseEntity<>(new Message("Không có video nào!"), HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(videos, HttpStatus.OK);
+        List<VideoResponse> videoResponseList = this.videoService.mappingListVideoToListVideoResponse(videos);
+        return new ResponseEntity<>(videoResponseList, HttpStatus.OK);
     }
     @GetMapping("/user/{userId}")
     public ResponseEntity<?> getAllVideoByUser(@PathVariable Long userId) {
@@ -33,6 +36,16 @@ public class VideoRestController {
             return new ResponseEntity<>(new Message("Không có video nào!"), HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(videos, HttpStatus.OK);
+    }
+    @GetMapping("/video/{videoId}")
+    public ResponseEntity<?> getVideoById(@PathVariable Long videoId) {
+        Optional<Video> videoOptional = this.videoService.getById(videoId);
+        if (!videoOptional.isPresent()) {
+            return new ResponseEntity<>(new Message("Video không tồn tại!"), HttpStatus.BAD_REQUEST);
+        }
+        Video video = videoOptional.get();
+        VideoResponse videoResponse = this.videoService.mappingVideoToVideoResponse(video);
+        return new ResponseEntity<>(videoResponse, HttpStatus.OK);
     }
     @PostMapping
     public ResponseEntity<?> createNewVideo(@RequestBody VideoForm videoForm) {
