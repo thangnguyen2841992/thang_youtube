@@ -3,6 +3,7 @@ package com.thang.youtube.controller;
 import com.thang.youtube.model.dto.Message;
 import com.thang.youtube.model.dto.VideoForm;
 import com.thang.youtube.model.dto.VideoResponse;
+import com.thang.youtube.model.entity.Hastag;
 import com.thang.youtube.model.entity.Video;
 import com.thang.youtube.service.video.IVideoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +21,9 @@ public class VideoRestController {
     @Autowired
     private IVideoService videoService;
 
-    @GetMapping
-    public ResponseEntity<?> getAllVideo() {
-        List<Video> videos = (List<Video>) this.videoService.getAll();
+    @GetMapping("/all/user/{userId}")
+    public ResponseEntity<?> getAllVideo(@PathVariable Long userId) {
+        List<Video> videos =  this.videoService.getVideoOtherUser(userId);
         if (videos.size() == 0) {
             return new ResponseEntity<>(new Message("Không có video nào!"), HttpStatus.NO_CONTENT);
         }
@@ -46,6 +47,22 @@ public class VideoRestController {
         Video video = videoOptional.get();
         VideoResponse videoResponse = this.videoService.mappingVideoToVideoResponse(video);
         return new ResponseEntity<>(videoResponse, HttpStatus.OK);
+    }
+    @GetMapping("/hastag/{hastagId}/user/{userId}")
+    public ResponseEntity<?> getAllVideoByHastag(@PathVariable Long hastagId, @PathVariable Long userId) {
+        List<Video> videos = this.videoService.findAllVideoByHastag(userId, hastagId);
+        if (videos.size() == 0) {
+            return new ResponseEntity<>(new Message("Không có video nào!"), HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(this.videoService.mappingListVideoToListVideoResponse(videos), HttpStatus.OK);
+    }
+    @GetMapping("/user/{userId}/video/{videoId}")
+    public ResponseEntity<?> getAllVideoOtherUserOtherVideo( @PathVariable Long userId, @PathVariable Long videoId) {
+        List<Video> videos = this.videoService.findAllVideoOtherUserAndOtherCurrentVideo(userId, videoId);
+        if (videos.size() == 0) {
+            return new ResponseEntity<>(new Message("Không có video nào!"), HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(this.videoService.mappingListVideoToListVideoResponse(videos), HttpStatus.OK);
     }
     @PostMapping
     public ResponseEntity<?> createNewVideo(@RequestBody VideoForm videoForm) {

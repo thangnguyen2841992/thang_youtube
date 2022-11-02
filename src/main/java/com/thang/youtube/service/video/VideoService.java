@@ -129,4 +129,16 @@ public class VideoService implements IVideoService {
         }
         return videoResponseList;
     }
+
+    @Override
+    public List<Video> getVideoOtherUser(Long userId) {
+        return this.videoRepository.getVideoOtherUser(userId);
+    }
+
+    @Override
+    public List<Video> findAllVideoOtherUserAndOtherCurrentVideo(Long userId, Long videoId) {
+        return this.videoRepository.findAllVideoOtherUserAndOtherCurrentVideo(userId, videoId);
+    }
+
+
 }

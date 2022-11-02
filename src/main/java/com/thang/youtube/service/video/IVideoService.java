@@ -19,4 +19,9 @@ public interface IVideoService extends IGeneralService<Video> {
     VideoResponse mappingVideoToVideoResponse(Video video);
 
     List<VideoResponse> mappingListVideoToListVideoResponse(List<Video> videos);
+
+    List<Video> getVideoOtherUser(Long userId);
+
+    List<Video> findAllVideoOtherUserAndOtherCurrentVideo(Long userId, Long videoId);
+
 }
