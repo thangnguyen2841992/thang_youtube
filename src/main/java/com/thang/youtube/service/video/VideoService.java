@@ -2,13 +2,11 @@ package com.thang.youtube.service.video;
 
 import com.thang.youtube.model.dto.VideoForm;
 import com.thang.youtube.model.dto.VideoResponse;
-import com.thang.youtube.model.entity.Hastag;
-import com.thang.youtube.model.entity.PlayList;
-import com.thang.youtube.model.entity.User;
-import com.thang.youtube.model.entity.Video;
+import com.thang.youtube.model.entity.*;
 import com.thang.youtube.repository.IVideoRepository;
 import com.thang.youtube.service.hastag.IHastagService;
 import com.thang.youtube.service.playList.IPlayListService;
+import com.thang.youtube.service.subscriber.ISubscriberService;
 import com.thang.youtube.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +26,8 @@ public class VideoService implements IVideoService {
     private IHastagService hastagService;
     @Autowired
     private IPlayListService playListService;
+    @Autowired
+    private ISubscriberService subscriberService;
 
     @Override
     public Iterable<Video> getAll() {
@@ -110,6 +110,8 @@ public class VideoService implements IVideoService {
         String remainingLetters = name.substring(1, name.length());
         firstLetter = firstLetter.toUpperCase();
         name = firstLetter + remainingLetters;
+        List<Subscriber> subscribers = this.subscriberService.findSubscribersByUser_Id(video.getUser().getId());
+        int totalSubscriber = subscribers.size();
         VideoResponse videoResponse = new VideoResponse();
         videoResponse.setId(video.getId());
         videoResponse.setUrl(video.getUrl());
@@ -118,6 +120,7 @@ public class VideoService implements IVideoService {
         videoResponse.setHastag(video.getHastag());
         videoResponse.setDateCreated(getDiffDays(video.getDateCreated(), new Date()));
         videoResponse.setUser(video.getUser());
+        videoResponse.setTotalSubscriber(totalSubscriber);
         return videoResponse;
     }
 

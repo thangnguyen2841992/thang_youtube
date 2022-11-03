@@ -27,4 +27,6 @@ public class VideoResponse {
     private Hastag hastag;
 
     private User user;
+
+    private Integer totalSubscriber;
 }
