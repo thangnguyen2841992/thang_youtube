@@ -64,6 +64,11 @@ public class VideoRestController {
         }
         return new ResponseEntity<>(this.videoService.mappingListVideoToListVideoResponse(videos), HttpStatus.OK);
     }
+    @GetMapping("/url/video/{videoId}")
+    public ResponseEntity<?> getUrlByVideoId(@PathVariable Long videoId) {
+        String url = this.videoService.getUrlById(videoId);
+        return new ResponseEntity<>(url, HttpStatus.OK);
+    }
     @PostMapping
     public ResponseEntity<?> createNewVideo(@RequestBody VideoForm videoForm) {
         Video newVideo = this.videoService.saveVideo(videoForm);

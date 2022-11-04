@@ -29,4 +29,8 @@ public class VideoResponse {
     private User user;
 
     private Integer totalSubscriber;
+
+    private Integer totalLike;
+
+    private Integer totalDisLike;
 }

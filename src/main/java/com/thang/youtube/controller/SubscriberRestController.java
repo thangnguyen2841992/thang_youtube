@@ -1,6 +1,6 @@
 package com.thang.youtube.controller;
 
-import com.thang.youtube.model.dto.CheckSubscriber;
+import com.thang.youtube.model.dto.Check;
 import com.thang.youtube.model.dto.Message;
 import com.thang.youtube.model.entity.Subscriber;
 import com.thang.youtube.service.subscriber.ISubscriberService;
@@ -37,7 +37,7 @@ public class SubscriberRestController {
     }
 
     @PostMapping("/checkMember/user/{userId}/member/{memberId}")
-    public ResponseEntity<CheckSubscriber> checkMember(@PathVariable Long userId, @PathVariable Long memberId) {
+    public ResponseEntity<Check> checkMember(@PathVariable Long userId, @PathVariable Long memberId) {
         List<Subscriber> subscriberList = this.subscriberService.findSubscribersByUser_Id(userId);
         boolean checkMember = false;
         for (int i = 0; i < subscriberList.size(); i++) {
@@ -46,8 +46,8 @@ public class SubscriberRestController {
                 break;
             }
         }
-        CheckSubscriber checkSubscriber = new CheckSubscriber();
-        checkSubscriber.setIsSubscriber(checkMember);
-        return new ResponseEntity<>(checkSubscriber, HttpStatus.OK);
+        Check check = new Check();
+        check.setIsSubscriber(checkMember);
+        return new ResponseEntity<>(check, HttpStatus.OK);
     }
 }

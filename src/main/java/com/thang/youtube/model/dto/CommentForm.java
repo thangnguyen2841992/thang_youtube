@@ -7,6 +7,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class CheckSubscriber {
-    private Boolean isSubscriber;
+public class CommentForm {
+
+    private String content;
+
+    private Long videoId;
+
+    private Long userId;
 }

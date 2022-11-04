@@ -4,7 +4,9 @@ import com.thang.youtube.model.dto.VideoForm;
 import com.thang.youtube.model.dto.VideoResponse;
 import com.thang.youtube.model.entity.*;
 import com.thang.youtube.repository.IVideoRepository;
+import com.thang.youtube.service.dislike.IDisLikeService;
 import com.thang.youtube.service.hastag.IHastagService;
+import com.thang.youtube.service.like.ILikeService;
 import com.thang.youtube.service.playList.IPlayListService;
 import com.thang.youtube.service.subscriber.ISubscriberService;
 import com.thang.youtube.service.user.IUserService;
@@ -28,6 +30,10 @@ public class VideoService implements IVideoService {
     private IPlayListService playListService;
     @Autowired
     private ISubscriberService subscriberService;
+    @Autowired
+    private ILikeService likeService;
+    @Autowired
+    private IDisLikeService disLikeService;
 
     @Override
     public Iterable<Video> getAll() {
@@ -121,6 +127,10 @@ public class VideoService implements IVideoService {
         videoResponse.setDateCreated(getDiffDays(video.getDateCreated(), new Date()));
         videoResponse.setUser(video.getUser());
         videoResponse.setTotalSubscriber(totalSubscriber);
+        List<Like> likes = this.likeService.findLikeByVideo_Id(video.getId());
+        videoResponse.setTotalLike(likes.size());
+        List<DisLike> disLikes = this.disLikeService.findDisLikeByVideo_Id(video.getId());
+        videoResponse.setTotalDisLike(disLikes.size());
         return videoResponse;
     }
 
@@ -141,6 +151,11 @@ public class VideoService implements IVideoService {
     @Override
     public List<Video> findAllVideoOtherUserAndOtherCurrentVideo(Long userId, Long videoId) {
         return this.videoRepository.findAllVideoOtherUserAndOtherCurrentVideo(userId, videoId);
+    }
+
+    @Override
+    public String getUrlById(Long videoId) {
+        return this.videoRepository.getUrlById(videoId);
     }
 
 
