@@ -5,6 +5,7 @@ import com.thang.youtube.repository.ILikeCommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -30,5 +31,15 @@ public class LikeCommentService implements ILikeCommentService{
     @Override
     public void deleteById(Long id) {
         this.likeCommentRepository.deleteById(id);
+    }
+
+    @Override
+    public Optional<LikeComment> findLikeCommentByComment_IdAndUser_Id(Long commentId, Long userId) {
+        return this.likeCommentRepository.findLikeCommentByComment_IdAndUser_Id(commentId, userId);
+    }
+
+    @Override
+    public List<LikeComment> findLikeCommentByComment_Id(Long commentId) {
+        return this.likeCommentRepository.findLikeCommentByComment_Id(commentId);
     }
 }
