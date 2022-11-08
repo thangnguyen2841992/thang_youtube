@@ -48,7 +48,14 @@ public class VideoRestController {
         VideoResponse videoResponse = this.videoService.mappingVideoToVideoResponse(video);
         return new ResponseEntity<>(videoResponse, HttpStatus.OK);
     }
-    @GetMapping("/hastag/{hastagId}/user/{userId}")
+    @GetMapping("/test/video/{videoId}")
+    public ResponseEntity<?> getVideoById1(@PathVariable Long videoId) {
+        List<Video> videos = this.videoService.findVideosById(videoId);
+        List<VideoResponse> videoResponseList = this.videoService.mappingListVideoToListVideoResponse(videos);
+        return new ResponseEntity<>(videoResponseList, HttpStatus.OK);
+    }
+
+        @GetMapping("/hastag/{hastagId}/user/{userId}")
     public ResponseEntity<?> getAllVideoByHastag(@PathVariable Long hastagId, @PathVariable Long userId) {
         List<Video> videos = this.videoService.findAllVideoByHastag(userId, hastagId);
         if (videos.size() == 0) {

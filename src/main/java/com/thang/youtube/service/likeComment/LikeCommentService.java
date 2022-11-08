@@ -1,5 +1,6 @@
 package com.thang.youtube.service.likeComment;
 
+import com.thang.youtube.model.dto.Check;
 import com.thang.youtube.model.entity.LikeComment;
 import com.thang.youtube.repository.ILikeCommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,5 +42,18 @@ public class LikeCommentService implements ILikeCommentService{
     @Override
     public List<LikeComment> findLikeCommentByComment_Id(Long commentId) {
         return this.likeCommentRepository.findLikeCommentByComment_Id(commentId);
+    }
+
+    @Override
+    public Check checkLikeComment(Long commentId, Long userId) {
+        Check check = new Check();
+        Optional<LikeComment> likeOptional = this.findLikeCommentByComment_IdAndUser_Id(commentId, userId);
+        if (!likeOptional.isPresent()) {
+            check.setIsSubscriber(false);
+        }
+        else {
+            check.setIsSubscriber(true);
+        }
+        return check;
     }
 }

@@ -158,5 +158,10 @@ public class VideoService implements IVideoService {
         return this.videoRepository.getUrlById(videoId);
     }
 
+    @Override
+    public List<Video> findVideosById(Long id) {
+        return this.videoRepository.findVideosById(id);
+    }
+
 
 }

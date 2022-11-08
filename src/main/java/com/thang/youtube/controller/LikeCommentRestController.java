@@ -1,5 +1,6 @@
 package com.thang.youtube.controller;
 
+import com.thang.youtube.model.dto.Check;
 import com.thang.youtube.model.dto.Message;
 import com.thang.youtube.model.entity.*;
 import com.thang.youtube.service.comment.ICommentService;
@@ -51,5 +52,17 @@ public class LikeCommentRestController {
             this.likeCommentService.deleteById(likeCommentOptional.get().getId());
         }
         return new ResponseEntity<>(newLikeComment, HttpStatus.CREATED);
+    }
+    @PostMapping("/checkLike/comment/{commentId}/user/{userId}")
+    public ResponseEntity<Check> checkLikeComment(@PathVariable Long commentId, @PathVariable Long userId) {
+        Check check = new Check();
+        Optional<LikeComment> likeOptional = this.likeCommentService.findLikeCommentByComment_IdAndUser_Id(commentId, userId);
+        if (!likeOptional.isPresent()) {
+            check.setIsSubscriber(false);
+        }
+        else {
+            check.setIsSubscriber(true);
+        }
+        return new ResponseEntity<>(check, HttpStatus.OK);
     }
 }

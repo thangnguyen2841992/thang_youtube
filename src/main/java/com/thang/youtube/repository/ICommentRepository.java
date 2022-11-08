@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface ICommentRepository extends JpaRepository<Comment, Long> {
-    List<Comment> findCommentByVideo_Id(Long videoId);
+    List<Comment> findCommentByVideo_IdOrderByDateCreatedDesc(Long videoId);
 }

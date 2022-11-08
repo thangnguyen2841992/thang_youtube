@@ -64,7 +64,7 @@ public class CommentService implements ICommentService {
 
     @Override
     public List<Comment> findCommentByVideo_Id(Long videoId) {
-        return this.commentRepository.findCommentByVideo_Id(videoId);
+        return this.commentRepository.findCommentByVideo_IdOrderByDateCreatedDesc(videoId);
     }
 
     @Override

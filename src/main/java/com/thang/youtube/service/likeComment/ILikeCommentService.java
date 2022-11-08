@@ -1,5 +1,6 @@
 package com.thang.youtube.service.likeComment;
 
+import com.thang.youtube.model.dto.Check;
 import com.thang.youtube.model.entity.LikeComment;
 import com.thang.youtube.service.IGeneralService;
 
@@ -12,5 +13,6 @@ public interface ILikeCommentService extends IGeneralService<LikeComment> {
 
     List<LikeComment> findLikeCommentByComment_Id(Long commentId);
 
+    Check checkLikeComment(Long commentId, Long userId);
 
 }

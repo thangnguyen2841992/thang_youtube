@@ -28,4 +28,6 @@ public class CommentDTO {
 
     private Integer totalDislike;
 
+    private Check checkLikeComment;
+
 }

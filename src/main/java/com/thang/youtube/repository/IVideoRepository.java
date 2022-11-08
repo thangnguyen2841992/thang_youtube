@@ -20,4 +20,5 @@ public interface IVideoRepository extends JpaRepository<Video, Long> {
     List<Video> findAllVideoByHastag(Long userId, Long hastagId);
     @Query(value = "select * from videos where user_id != ?1  and id != ?2 order by date_created desc", nativeQuery = true)
     List<Video> findAllVideoOtherUserAndOtherCurrentVideo(Long userId, Long videoId);
+    List<Video> findVideosById(Long id);
 }

@@ -26,5 +26,7 @@ public interface IVideoService extends IGeneralService<Video> {
 
     String getUrlById(Long videoId);
 
+    List<Video> findVideosById(Long id);
+
 
 }
