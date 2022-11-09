@@ -4,6 +4,7 @@ import com.thang.youtube.model.dto.VideoForm;
 import com.thang.youtube.model.dto.VideoResponse;
 import com.thang.youtube.model.entity.*;
 import com.thang.youtube.repository.IVideoRepository;
+import com.thang.youtube.service.comment.ICommentService;
 import com.thang.youtube.service.dislike.IDisLikeService;
 import com.thang.youtube.service.hastag.IHastagService;
 import com.thang.youtube.service.like.ILikeService;
@@ -34,6 +35,10 @@ public class VideoService implements IVideoService {
     private ILikeService likeService;
     @Autowired
     private IDisLikeService disLikeService;
+
+    @Autowired
+    private ICommentService commentService;
+
 
     @Override
     public Iterable<Video> getAll() {
@@ -131,6 +136,8 @@ public class VideoService implements IVideoService {
         videoResponse.setTotalLike(likes.size());
         List<DisLike> disLikes = this.disLikeService.findDisLikeByVideo_Id(video.getId());
         videoResponse.setTotalDisLike(disLikes.size());
+        List<Comment> comments = this.commentService.findCommentByVideo_Id(video.getId());
+        videoResponse.setTotalComment(comments.size());
         return videoResponse;
     }
 

@@ -3,6 +3,7 @@ package com.thang.youtube.controller;
 import com.thang.youtube.model.dto.Check;
 import com.thang.youtube.model.dto.Message;
 import com.thang.youtube.model.entity.Subscriber;
+import com.thang.youtube.model.entity.User;
 import com.thang.youtube.service.subscriber.ISubscriberService;
 import com.thang.youtube.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
@@ -49,5 +51,23 @@ public class SubscriberRestController {
         Check check = new Check();
         check.setIsSubscriber(checkMember);
         return new ResponseEntity<>(check, HttpStatus.OK);
+    }
+    @DeleteMapping("/unSubscribe/user/{userId}/member/{memberId}")
+    public ResponseEntity<?> unSubscribe(@PathVariable Long userId, @PathVariable Long memberId) {
+        Optional<User> userOptional = this.userService.getById(userId);
+        if (!userOptional.isPresent()) {
+            return new ResponseEntity<>(new Message("Kênh không tồn tại!"), HttpStatus.BAD_REQUEST);
+        }
+        Optional<User> memberOptional = this.userService.getById(memberId);
+        if (!memberOptional.isPresent()) {
+            return new ResponseEntity<>(new Message("Người dùng không tồn tại!"), HttpStatus.BAD_REQUEST);
+        }
+        Optional<Subscriber>subscriberOptional = this.subscriberService.findSubscribersByUser_IdAndMember_Id(userId, memberId);
+        if (subscriberOptional.isPresent()) {
+            this.subscriberService.deleteById(subscriberOptional.get().getId());
+        }else {
+            return new ResponseEntity<>(new Message("Người dùng chưa đăng ký kênh!"), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(subscriberOptional.get(), HttpStatus.OK);
     }
 }
