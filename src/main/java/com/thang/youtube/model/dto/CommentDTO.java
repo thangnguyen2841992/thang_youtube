@@ -33,4 +33,6 @@ public class CommentDTO {
 
     private List<ReplyDTO> replyDTOList;
 
+    private Integer totalReply;
+
 }

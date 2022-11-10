@@ -87,6 +87,7 @@ public class CommentService implements ICommentService {
         List<ReplyComment> replyComments = this.replyService.findReplyCommentsByComment_Id(comment.getId());
         List<ReplyDTO> replyDTOList = this.replyService.mappingListReplyToListReplyDTO(replyComments);
         commentDTO.setReplyDTOList(replyDTOList);
+        commentDTO.setTotalReply(replyDTOList.size());
         return commentDTO;
     }
 

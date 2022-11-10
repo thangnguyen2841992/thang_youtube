@@ -82,6 +82,6 @@ public class ReplyService implements IReplyService {
 
     @Override
     public List<ReplyComment> findReplyCommentsByComment_Id(Long commentId) {
-        return this.replyCommentRepository.findReplyCommentsByComment_Id(commentId);
+        return this.replyCommentRepository.findReplyCommentsByComment_IdOrderByDateCreatedDesc(commentId);
     }
 }

@@ -1,5 +1,6 @@
 package com.thang.youtube.service.video;
 
+import com.thang.youtube.model.dto.CommentDTO;
 import com.thang.youtube.model.dto.VideoForm;
 import com.thang.youtube.model.dto.VideoResponse;
 import com.thang.youtube.model.entity.*;
@@ -137,7 +138,12 @@ public class VideoService implements IVideoService {
         List<DisLike> disLikes = this.disLikeService.findDisLikeByVideo_Id(video.getId());
         videoResponse.setTotalDisLike(disLikes.size());
         List<Comment> comments = this.commentService.findCommentByVideo_Id(video.getId());
-        videoResponse.setTotalComment(comments.size());
+        int totalReply = 0;
+        List<CommentDTO> commentDTOList = this.commentService.mappingListCommentToListCommentDTO(comments);
+        for (int i = 0; i < commentDTOList.size(); i++) {
+            totalReply += commentDTOList.get(i).getTotalReply();
+        }
+        videoResponse.setTotalComment(comments.size() + totalReply);
         return videoResponse;
     }
 
