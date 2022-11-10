@@ -2,10 +2,12 @@ package com.thang.youtube.service.comment;
 
 import com.thang.youtube.model.dto.CommentDTO;
 import com.thang.youtube.model.dto.CommentForm;
+import com.thang.youtube.model.dto.ReplyDTO;
 import com.thang.youtube.model.entity.*;
 import com.thang.youtube.repository.ICommentRepository;
 import com.thang.youtube.service.dislikeComment.IDisLikeCommentService;
 import com.thang.youtube.service.likeComment.ILikeCommentService;
+import com.thang.youtube.service.reply.IReplyService;
 import com.thang.youtube.service.user.IUserService;
 import com.thang.youtube.service.video.IVideoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,9 @@ public class CommentService implements ICommentService {
     private ILikeCommentService likeCommentService;
     @Autowired
     private IDisLikeCommentService disLikeCommentService;
+
+    @Autowired
+    private IReplyService replyService;
 
 
     @Override
@@ -79,6 +84,9 @@ public class CommentService implements ICommentService {
         commentDTO.setVideo(comment.getVideo());
         commentDTO.setTotalLike(likeCommentList.size());
         commentDTO.setTotalDislike(disLikeCommentList.size());
+        List<ReplyComment> replyComments = this.replyService.findReplyCommentsByComment_Id(comment.getId());
+        List<ReplyDTO> replyDTOList = this.replyService.mappingListReplyToListReplyDTO(replyComments);
+        commentDTO.setReplyDTOList(replyDTOList);
         return commentDTO;
     }
 
