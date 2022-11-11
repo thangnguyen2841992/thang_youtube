@@ -6,12 +6,10 @@ import com.thang.youtube.service.hastag.IHastagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
@@ -22,10 +20,19 @@ public class HastagRestController {
 
     @GetMapping
     public ResponseEntity<?> getAllHastag() {
-        List<Hastag>  hastags = (List<Hastag>) this.hastagService.getAll();
+        List<Hastag> hastags = (List<Hastag>) this.hastagService.getAll();
         if (hastags.size() == 0) {
             return new ResponseEntity<>(new Message("Không có hastag nào!"), HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(hastags, HttpStatus.OK);
+    }
+
+    @GetMapping("/{hastagId}")
+    public ResponseEntity<?> getHastagById(@PathVariable Long hastagId) {
+        Optional<Hastag> hastagOptional = this.hastagService.getById(hastagId);
+        if (!hastagOptional.isPresent()) {
+            return new ResponseEntity<>(new Message("Hastag không tồn tại"), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(hastagOptional.get(), HttpStatus.OK);
     }
 }

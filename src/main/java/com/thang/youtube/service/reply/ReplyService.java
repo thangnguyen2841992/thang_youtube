@@ -6,6 +6,7 @@ import com.thang.youtube.model.dto.ReplyForm;
 import com.thang.youtube.model.entity.*;
 import com.thang.youtube.repository.IReplyCommentRepository;
 import com.thang.youtube.service.comment.ICommentService;
+import com.thang.youtube.service.likeReply.ILikeReplyService;
 import com.thang.youtube.service.user.IUserService;
 import com.thang.youtube.service.video.IVideoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class ReplyService implements IReplyService {
 
     @Autowired
     private IVideoService videoService;
+
+    @Autowired
+    private ILikeReplyService likeReplyService;
 
     @Override
     public Iterable<ReplyComment> getAll() {
@@ -68,6 +72,8 @@ public class ReplyService implements IReplyService {
         replyDTO.setDateCreated(this.videoService.getDiffDays(replyComment.getDateCreated(), new Date()));
         replyDTO.setUser(replyComment.getUser());
         replyDTO.setComment(replyComment.getComment());
+        List<LikeReply> likeReplies = this.likeReplyService.findLikeReplyByReplyComment_Id(replyComment.getId());
+        replyDTO.setTotalLike(likeReplies.size());
         return replyDTO;
     }
 

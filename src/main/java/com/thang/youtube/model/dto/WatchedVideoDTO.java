@@ -1,7 +1,7 @@
 package com.thang.youtube.model.dto;
 
-import com.thang.youtube.model.entity.Comment;
 import com.thang.youtube.model.entity.User;
+import com.thang.youtube.model.entity.Video;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,18 +15,15 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class ReplyDTO {
+public class WatchedVideoDTO {
 
     private Long id;
 
-    private String content;
-
-    private String dateCreated;
-
-    private Integer totalLike;
+    private String watchedTime;
 
 
-    private Comment comment;
+    private Video video;
 
     private User user;
+
 }
