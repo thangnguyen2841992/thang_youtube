@@ -1,6 +1,8 @@
 package com.thang.youtube.service.watchedVideo;
 
+import com.thang.youtube.model.dto.VideoResponse;
 import com.thang.youtube.model.dto.WatchedVideoDTO;
+import com.thang.youtube.model.entity.Video;
 import com.thang.youtube.model.entity.WatchedVideo;
 import com.thang.youtube.repository.IWatchedVideoRepository;
 import com.thang.youtube.service.video.IVideoService;
@@ -45,7 +47,8 @@ public class WatchedVideoService implements IWatchedVideoService {
         WatchedVideoDTO watchedVideoDTO = new WatchedVideoDTO();
         watchedVideoDTO.setId(watchedVideo.getId());
         watchedVideoDTO.setUser(watchedVideo.getUser());
-        watchedVideoDTO.setVideo(watchedVideo.getVideo());
+        VideoResponse videoResponse = this.videoService.mappingVideoToVideoResponse(watchedVideo.getVideo());
+        watchedVideoDTO.setVideo(videoResponse);
         watchedVideoDTO.setWatchedTime(this.videoService.getDiffDays(watchedVideo.getWatchedTime(), new Date()));
         return watchedVideoDTO;
     }

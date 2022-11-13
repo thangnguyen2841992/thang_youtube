@@ -22,7 +22,7 @@ public class WatchedVideoDTO {
     private String watchedTime;
 
 
-    private Video video;
+    private VideoResponse video;
 
     private User user;
 
