@@ -88,6 +88,11 @@ public class CommentService implements ICommentService {
         List<ReplyDTO> replyDTOList = this.replyService.mappingListReplyToListReplyDTO(replyComments);
         commentDTO.setReplyDTOList(replyDTOList);
         commentDTO.setTotalReply(replyDTOList.size());
+        List<Long> listUserLikes = new ArrayList<>();
+        for (int i = 0; i < likeCommentList.size(); i++) {
+            listUserLikes.add(likeCommentList.get(i).getUser().getId());
+        }
+        commentDTO.setListUserLikeComment(listUserLikes);
         return commentDTO;
     }
 

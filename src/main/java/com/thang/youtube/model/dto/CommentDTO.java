@@ -35,4 +35,6 @@ public class CommentDTO {
 
     private Integer totalReply;
 
+    private List<Long> listUserLikeComment;
+
 }
