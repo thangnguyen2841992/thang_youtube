@@ -1,5 +1,6 @@
 package com.thang.youtube.controller;
 
+import com.thang.youtube.model.dto.CommentDTO;
 import com.thang.youtube.model.dto.CommentForm;
 import com.thang.youtube.model.entity.Comment;
 import com.thang.youtube.service.comment.ICommentService;
@@ -33,5 +34,11 @@ public class CommentRestController {
     public ResponseEntity<?> getAllCommentOfVideo(@PathVariable Long videoId) {
         List<Comment> comments = this.commentService.findCommentByVideo_Id(videoId);
         return new ResponseEntity<>(this.commentService.mappingListCommentToListCommentDTO(comments), HttpStatus.OK);
+    }
+    @GetMapping("/showListCommentOrderByTotalLike/video/{videoId}")
+    public ResponseEntity<?> showListCommentOrderByTotalLike(@PathVariable Long videoId) {
+        List<Comment> comments = this.commentService.findCommentByVideo_Id(videoId);
+        List<CommentDTO> commentDTOList = this.commentService.showListCommentOrderByTotalLike(comments);
+        return new ResponseEntity<>(commentDTOList, HttpStatus.OK);
     }
 }

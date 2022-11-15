@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class CommentService implements ICommentService {
@@ -102,6 +104,14 @@ public class CommentService implements ICommentService {
         for (int i = 0; i < comments.size(); i++) {
             commentDTOList.add(this.mappingCommentToCommentDTO(comments.get(i)));
         }
+        return commentDTOList;
+    }
+
+    @Override
+    public List<CommentDTO> showListCommentOrderByTotalLike(List<Comment> comments) {
+        List<CommentDTO> commentDTOList = mappingListCommentToListCommentDTO(comments);
+        Stream<CommentDTO> commentDTOStream = commentDTOList.stream();
+        commentDTOList = commentDTOStream.sorted((a, b) -> b.getTotalLike().compareTo(a.getTotalLike())).collect(Collectors.toList());
         return commentDTOList;
     }
 

@@ -16,4 +16,6 @@ public interface ICommentService extends IGeneralService<Comment> {
     CommentDTO mappingCommentToCommentDTO(Comment comment);
 
     List<CommentDTO> mappingListCommentToListCommentDTO(List<Comment> comments);
+
+    List<CommentDTO> showListCommentOrderByTotalLike(List<Comment> comments);
 }
