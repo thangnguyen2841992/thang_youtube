@@ -13,4 +13,6 @@ public interface ISubscriberRepository extends JpaRepository<Subscriber, Long> {
     List<Subscriber> findSubscribersByUser_Id(Long userId);
     Optional<Subscriber> findSubscribersByUser_IdAndMember_Id(Long userId, Long memberId);
 
+    List<Subscriber> findSubscribersByMember_Id(Long memberId);
+
 }

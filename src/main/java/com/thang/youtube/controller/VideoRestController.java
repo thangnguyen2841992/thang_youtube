@@ -81,4 +81,10 @@ public class VideoRestController {
         Video newVideo = this.videoService.saveVideo(videoForm);
         return new ResponseEntity<>(this.videoService.save(newVideo), HttpStatus.CREATED);
     }
+    @GetMapping("/searchByName")
+    public ResponseEntity<?> findVideoByNameContaining(@RequestParam(name = "q") String name) {
+        List<Video> videos = this.videoService.findVideosByNameContaining(name);
+        List<VideoResponse> videoResponseList = this.videoService.mappingListVideoToListVideoResponse(videos);
+        return new ResponseEntity<>(videoResponseList, HttpStatus.OK);
+    }
 }

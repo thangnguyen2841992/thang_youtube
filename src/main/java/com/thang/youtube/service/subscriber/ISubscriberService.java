@@ -12,4 +12,7 @@ public interface ISubscriberService extends IGeneralService<Subscriber> {
 
     Optional<Subscriber> findSubscribersByUser_IdAndMember_Id(Long userId, Long memberId);
 
+    List<Subscriber> findSubscribersByMember_Id(Long memberId);
+
+
 }

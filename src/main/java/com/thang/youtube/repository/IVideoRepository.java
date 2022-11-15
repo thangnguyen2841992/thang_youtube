@@ -11,6 +11,7 @@ import java.util.List;
 public interface IVideoRepository extends JpaRepository<Video, Long> {
     @Query(value = "select * from videos where user_id <> ?1 order by date_created desc", nativeQuery = true)
     List<Video> getVideoOtherUser(Long userId);
+
     List<Video> getVideoByUser_Id(Long userId);
 
     @Query(value = "select url from videos where id = ?1", nativeQuery = true)
@@ -18,7 +19,12 @@ public interface IVideoRepository extends JpaRepository<Video, Long> {
 
     @Query(value = "select * from videos where user_id != ?1 and hastag_id = ?2 order by date_created desc", nativeQuery = true)
     List<Video> findAllVideoByHastag(Long userId, Long hastagId);
+
     @Query(value = "select * from videos where user_id != ?1  and id != ?2 order by date_created desc", nativeQuery = true)
     List<Video> findAllVideoOtherUserAndOtherCurrentVideo(Long userId, Long videoId);
+
     List<Video> findVideosById(Long id);
+
+    @Query(value = "select * from videos where name like ?1", nativeQuery = true)
+    List<Video> findVideosByNameContaining(String name);
 }

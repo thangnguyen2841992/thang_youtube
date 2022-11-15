@@ -23,6 +23,12 @@ public class SubscriberRestController {
     @Autowired
     private IUserService userService;
 
+    @GetMapping("/member/{memberId}")
+    public ResponseEntity<?> showAllStudioSubscribe(@PathVariable Long memberId) {
+        List<Subscriber> subscribers = this.subscriberService.findSubscribersByMember_Id(memberId);
+        return new ResponseEntity<>(subscribers, HttpStatus.OK);
+    }
+
     @PostMapping("/addMember/user/{userId}/member/{memberId}")
     public ResponseEntity<?> addNewMember(@PathVariable Long userId, @PathVariable Long memberId) {
         Subscriber subscriber = new Subscriber();

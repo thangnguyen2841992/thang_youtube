@@ -176,5 +176,12 @@ public class VideoService implements IVideoService {
         return this.videoRepository.findVideosById(id);
     }
 
+    @Override
+    public List<Video> findVideosByNameContaining(String name) {
+        String name1 = "%" + name + "%";
+        List<Video> videos = this.videoRepository.findVideosByNameContaining(name1);
+        return videos;
+    }
+
 
 }

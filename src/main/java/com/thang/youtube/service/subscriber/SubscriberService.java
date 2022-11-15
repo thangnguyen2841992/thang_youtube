@@ -42,4 +42,9 @@ public class SubscriberService implements ISubscriberService{
     public Optional<Subscriber> findSubscribersByUser_IdAndMember_Id(Long userId, Long memberId) {
         return this.subscriberRepository.findSubscribersByUser_IdAndMember_Id(userId, memberId);
     }
+
+    @Override
+    public List<Subscriber> findSubscribersByMember_Id(Long memberId) {
+        return this.subscriberRepository.findSubscribersByMember_Id(memberId);
+    }
 }
