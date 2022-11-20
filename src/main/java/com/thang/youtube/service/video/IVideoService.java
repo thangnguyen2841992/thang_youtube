@@ -16,6 +16,8 @@ public interface IVideoService extends IGeneralService<Video> {
 
     String getDiffDays(Date time1, Date time2);
 
+    String getDiffDays1(Date time1, Date time2);
+
     VideoResponse mappingVideoToVideoResponse(Video video);
 
     List<VideoResponse> mappingListVideoToListVideoResponse(List<Video> videos);

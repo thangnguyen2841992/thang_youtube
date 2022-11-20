@@ -45,11 +45,19 @@ public class WatchedVideoRestController {
         if (!user.isPresent()) {
             return new ResponseEntity<>(new Message("Người dùng không tồn tại!"), HttpStatus.BAD_REQUEST);
         }
+        Optional<WatchedVideo> watchedVideoOptional = this.watchedVideoService.findWatchedVideosByUser_IdAndVideo_Id(userId, videoId);
+
         WatchedVideo watchedVideo = new WatchedVideo();
         watchedVideo.setVideo(video.get());
         watchedVideo.setUser(user.get());
         watchedVideo.setWatchedTime(new Date());
-        this.watchedVideoService.save(watchedVideo);
+        if (watchedVideoOptional.isPresent()) {
+            this.watchedVideoService.deleteById(watchedVideoOptional.get().getId());
+            this.watchedVideoService.save(watchedVideo);
+        }
+        if (!watchedVideoOptional.isPresent()) {
+            this.watchedVideoService.save(watchedVideo);
+        }
         return new ResponseEntity<>(watchedVideo, HttpStatus.CREATED);
     }
 }
