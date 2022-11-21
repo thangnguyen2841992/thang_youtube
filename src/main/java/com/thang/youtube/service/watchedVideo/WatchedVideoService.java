@@ -49,13 +49,19 @@ public class WatchedVideoService implements IWatchedVideoService {
         watchedVideoDTO.setUser(watchedVideo.getUser());
         VideoResponse videoResponse = this.videoService.mappingVideoToVideoResponse(watchedVideo.getVideo());
         watchedVideoDTO.setVideo(videoResponse);
-        watchedVideoDTO.setWatchedTime(this.videoService.getDiffDays(watchedVideo.getWatchedTime(), new Date()));
+        watchedVideoDTO.setWatchedTime(this.videoService.getDiffDays1(watchedVideo.getWatchedTime(), new Date()));
         return watchedVideoDTO;
     }
 
     @Override
-    public List<WatchedVideo> findWatchedVideoByUser_IdOrderByWatchedTime(Long userId) {
-        return this.watchedVideoRepository.findWatchedVideoByUser_IdOrderByWatchedTime(userId);
+    public List<WatchedVideo> findWatchedVideoOfUser(Long userId, int limit) {
+        return this.watchedVideoRepository.findWatchedVideoOfUser(userId, limit);
+    }
+
+
+    @Override
+    public Optional<WatchedVideo> findWatchedVideosByUser_IdAndVideo_Id(Long userId, Long videoId) {
+        return this.watchedVideoRepository.findWatchedVideosByUser_IdAndVideo_Id(userId, videoId);
     }
 
     @Override

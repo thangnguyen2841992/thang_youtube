@@ -17,6 +17,7 @@ public class LikedVideo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
     private Date likedTime;
 
     @ManyToOne

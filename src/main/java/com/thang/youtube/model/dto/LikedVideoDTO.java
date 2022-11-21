@@ -6,8 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.ManyToOne;
-import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,10 +14,10 @@ public class LikedVideoDTO {
 
     private Long id;
 
-    private String likedTime;
+    private String likedVideoTime;
 
 
-    private Video video;
+    private VideoResponse video;
 
     private User user;
 }

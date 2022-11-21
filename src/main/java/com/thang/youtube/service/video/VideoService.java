@@ -116,6 +116,20 @@ public class VideoService implements IVideoService {
     }
 
     @Override
+    public String getDiffDays1(Date time1, Date time2) {
+        long timeDifferenceMilliseconds = (time2.getTime() - time1.getTime());
+        long diffDays = timeDifferenceMilliseconds / (60 * 60 * 1000 * 24);
+        if (time1.getYear() == time2.getYear() && time1.getMonth() == time2.getMonth() && (time2.getDate() - time1.getDate() < 1)) {
+            return "Hôm nay";
+        }else if (time1.getYear() == time2.getYear() && time1.getMonth() == time2.getMonth() && (time2.getDate() - time1.getDate() == 1)) {
+            return "Hôm qua";
+        }else {
+            int month = time1.getMonth() + 1;
+            return (time1.getDate() + "/" + month);
+        }
+    }
+
+    @Override
     public VideoResponse mappingVideoToVideoResponse(Video video) {
         String name = video.getName();
         String firstLetter = name.substring(0, 1);

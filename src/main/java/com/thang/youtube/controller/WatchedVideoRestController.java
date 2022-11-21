@@ -29,8 +29,8 @@ public class WatchedVideoRestController {
     private IUserService userService;
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<?> getAllWatchedVideoOfUser(@PathVariable Long userId) {
-        List<WatchedVideo> watchedVideos = this.watchedVideoService.findWatchedVideoByUser_IdOrderByWatchedTime(userId);
+    public ResponseEntity<?> getAllWatchedVideoOfUser(@PathVariable Long userId, @RequestParam(value = "limit") int limit) {
+        List<WatchedVideo> watchedVideos = this.watchedVideoService.findWatchedVideoOfUser(userId, limit);
         List<WatchedVideoDTO> watchedVideoDTOList = this.watchedVideoService.mappingListWatchedVideoToListWatchedVideo(watchedVideos);
         return new ResponseEntity<>(watchedVideoDTOList, HttpStatus.OK);
     }
@@ -45,11 +45,19 @@ public class WatchedVideoRestController {
         if (!user.isPresent()) {
             return new ResponseEntity<>(new Message("Người dùng không tồn tại!"), HttpStatus.BAD_REQUEST);
         }
+        Optional<WatchedVideo> watchedVideoOptional = this.watchedVideoService.findWatchedVideosByUser_IdAndVideo_Id(userId, videoId);
+
         WatchedVideo watchedVideo = new WatchedVideo();
         watchedVideo.setVideo(video.get());
         watchedVideo.setUser(user.get());
         watchedVideo.setWatchedTime(new Date());
-        this.watchedVideoService.save(watchedVideo);
+        if (watchedVideoOptional.isPresent()) {
+            this.watchedVideoService.deleteById(watchedVideoOptional.get().getId());
+            this.watchedVideoService.save(watchedVideo);
+        }
+        if (!watchedVideoOptional.isPresent()) {
+            this.watchedVideoService.save(watchedVideo);
+        }
         return new ResponseEntity<>(watchedVideo, HttpStatus.CREATED);
     }
 }
