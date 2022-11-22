@@ -49,11 +49,11 @@ public class LikedVideoService implements ILikedVideoService{
     }
 
     @Override
-    public List<LikedVideoDTO> findLikedVideoByUser_Id(Long userId) {
-        List<LikedVideo> likedVideos = this.likedVideoRepository.findLikedVideoByUser_Id(userId);
+    public List<LikedVideoDTO> findLikedVideoOfUser(Long userId, int limit) {
+        List<LikedVideo> likedVideos = this.likedVideoRepository.findLikedVideoOfUser(userId, limit);
         List<LikedVideoDTO> likedVideoDTOS = new ArrayList<>();
-        for (int i = 0; i < likedVideos.size(); i++) {
-            likedVideoDTOS.add(mappingLikedVideoToLikedVideoDTO(likedVideos.get(i)));
+        for (LikedVideo likedVideo : likedVideos) {
+            likedVideoDTOS.add(mappingLikedVideoToLikedVideoDTO(likedVideo));
         }
        return likedVideoDTOS;
     }

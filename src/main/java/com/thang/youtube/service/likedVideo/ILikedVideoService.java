@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface ILikedVideoService extends IGeneralService<LikedVideo> {
 
-    List<LikedVideoDTO> findLikedVideoByUser_Id(Long userId);
+    List<LikedVideoDTO> findLikedVideoOfUser(Long userId, int limit);
     LikedVideoDTO mappingLikedVideoToLikedVideoDTO(LikedVideo likedVideo);
     LikedVideo saveLikeVideo(Long userId, Long videoId);
     Optional<LikedVideo> findLikedVideoByUser_IdAndVideo_Id(Long userId, Long videoId);
