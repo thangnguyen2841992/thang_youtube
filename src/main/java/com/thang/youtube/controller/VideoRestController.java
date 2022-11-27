@@ -36,7 +36,8 @@ public class VideoRestController {
         if (videos.size() == 0) {
             return new ResponseEntity<>(new Message("Không có video nào!"), HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(videos, HttpStatus.OK);
+        List<VideoResponse> videoResponseList = this.videoService.mappingListVideoToListVideoResponse(videos);
+        return new ResponseEntity<>(videoResponseList, HttpStatus.OK);
     }
     @GetMapping("/video/{videoId}")
     public ResponseEntity<?> getVideoById(@PathVariable Long videoId) {
@@ -86,5 +87,10 @@ public class VideoRestController {
         List<Video> videos = this.videoService.findVideosByNameContaining(name);
         List<VideoResponse> videoResponseList = this.videoService.mappingListVideoToListVideoResponse(videos);
         return new ResponseEntity<>(videoResponseList, HttpStatus.OK);
+    }
+    @PostMapping("/deleteVideo")
+    public ResponseEntity<?> deleteListVideo(@RequestBody List<Long> videoIds) {
+        this.videoService.deleteListVideo(videoIds);
+        return new ResponseEntity<>(new Message("Xóa thành công!"), HttpStatus.OK);
     }
 }

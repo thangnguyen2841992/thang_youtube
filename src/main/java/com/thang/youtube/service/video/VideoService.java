@@ -77,7 +77,7 @@ public class VideoService implements IVideoService {
 
     @Override
     public List<Video> getVideoByUser_Id(Long userId) {
-        return this.videoRepository.getVideoByUser_Id(userId);
+        return this.videoRepository.getVideoByUser_IdOrderByDateCreatedDesc(userId);
     }
 
     @Override
@@ -195,6 +195,13 @@ public class VideoService implements IVideoService {
         String name1 = "%" + name + "%";
         List<Video> videos = this.videoRepository.findVideosByNameContaining(name1);
         return videos;
+    }
+
+    @Override
+    public void deleteListVideo(List<Long> videoId) {
+        for (int i = 0; i < videoId.size(); i++) {
+            this.videoRepository.deleteById(videoId.get(i));
+        }
     }
 
 
