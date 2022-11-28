@@ -77,7 +77,7 @@ public class VideoService implements IVideoService {
 
     @Override
     public List<Video> getVideoByUser_Id(Long userId) {
-        return this.videoRepository.getVideoByUser_Id(userId);
+        return this.videoRepository.getVideoByUser_IdOrderByDateCreatedDesc(userId);
     }
 
     @Override

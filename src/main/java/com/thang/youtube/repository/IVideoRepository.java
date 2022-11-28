@@ -12,7 +12,7 @@ public interface IVideoRepository extends JpaRepository<Video, Long> {
     @Query(value = "select * from videos where user_id <> ?1 order by date_created desc", nativeQuery = true)
     List<Video> getVideoOtherUser(Long userId);
 
-    List<Video> getVideoByUser_Id(Long userId);
+    List<Video> getVideoByUser_IdOrderByDateCreatedDesc(Long userId);
 
     @Query(value = "select url from videos where id = ?1", nativeQuery = true)
     String getUrlById(Long videoId);

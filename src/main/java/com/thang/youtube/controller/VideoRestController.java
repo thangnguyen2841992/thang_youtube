@@ -36,7 +36,8 @@ public class VideoRestController {
         if (videos.size() == 0) {
             return new ResponseEntity<>(new Message("Không có video nào!"), HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(videos, HttpStatus.OK);
+        List<VideoResponse> videoResponseList = this.videoService.mappingListVideoToListVideoResponse(videos);
+        return new ResponseEntity<>(videoResponseList, HttpStatus.OK);
     }
     @GetMapping("/video/{videoId}")
     public ResponseEntity<?> getVideoById(@PathVariable Long videoId) {
