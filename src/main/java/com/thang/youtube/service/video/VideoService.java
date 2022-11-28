@@ -12,6 +12,7 @@ import com.thang.youtube.service.like.ILikeService;
 import com.thang.youtube.service.playList.IPlayListService;
 import com.thang.youtube.service.subscriber.ISubscriberService;
 import com.thang.youtube.service.user.IUserService;
+import com.thang.youtube.service.view.IViewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +40,9 @@ public class VideoService implements IVideoService {
 
     @Autowired
     private ICommentService commentService;
+
+    @Autowired
+    private IViewService viewService;
 
 
     @Override
@@ -158,6 +162,8 @@ public class VideoService implements IVideoService {
             totalReply += commentDTOList.get(i).getTotalReply();
         }
         videoResponse.setTotalComment(comments.size() + totalReply);
+        List<View> views = this.viewService.findViewByVideo_Id(video.getId());
+        videoResponse.setTotalView(views.size());
         return videoResponse;
     }
 

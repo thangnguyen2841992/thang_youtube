@@ -36,4 +36,8 @@ public class ViewRestController {
         }
         return new ResponseEntity<>(newView, HttpStatus.CREATED);
     }
+//    @GetMapping("/getWebBrowser")
+//    public ResponseEntity<?> getWebBrowser() {
+//        return new ResponseEntity<>(this.viewService.getWebBrowse(), HttpStatus.OK);
+//    }
 }

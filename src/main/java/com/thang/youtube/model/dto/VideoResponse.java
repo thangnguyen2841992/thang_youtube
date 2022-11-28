@@ -35,4 +35,6 @@ public class VideoResponse {
     private Integer totalDisLike;
 
     private Integer totalComment;
+
+    private Integer totalView;
 }
