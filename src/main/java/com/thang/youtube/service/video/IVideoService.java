@@ -32,5 +32,7 @@ public interface IVideoService extends IGeneralService<Video> {
 
     List<Video> findVideosByNameContaining(String name);
 
+    void deleteListVideo(List<Long> videoId);
+
 
 }

@@ -197,5 +197,12 @@ public class VideoService implements IVideoService {
         return videos;
     }
 
+    @Override
+    public void deleteListVideo(List<Long> videoId) {
+        for (int i = 0; i < videoId.size(); i++) {
+            this.videoRepository.deleteById(videoId.get(i));
+        }
+    }
+
 
 }

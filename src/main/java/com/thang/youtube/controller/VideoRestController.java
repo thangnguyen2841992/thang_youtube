@@ -88,4 +88,9 @@ public class VideoRestController {
         List<VideoResponse> videoResponseList = this.videoService.mappingListVideoToListVideoResponse(videos);
         return new ResponseEntity<>(videoResponseList, HttpStatus.OK);
     }
+    @PostMapping("/deleteVideo")
+    public ResponseEntity<?> deleteListVideo(@RequestBody List<Long> videoIds) {
+        this.videoService.deleteListVideo(videoIds);
+        return new ResponseEntity<>(new Message("Xóa thành công!"), HttpStatus.OK);
+    }
 }
