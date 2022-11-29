@@ -19,6 +19,8 @@ public class Video {
 
     private String name;
 
+    private String description;
+
     private String url;
 
     private Date dateCreated;

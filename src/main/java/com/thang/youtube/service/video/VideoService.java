@@ -70,6 +70,7 @@ public class VideoService implements IVideoService {
     public Video saveVideo(VideoForm videoForm) {
         Video newVideo = new Video();
         newVideo.setName(videoForm.getName());
+        newVideo.setDescription(videoForm.getDescription());
         newVideo.setUrl(videoForm.getUrl());
         newVideo.setDateCreated(new Date());
         Optional<User> userOptional = this.userService.getById(videoForm.getUserId());
@@ -146,6 +147,7 @@ public class VideoService implements IVideoService {
         videoResponse.setId(video.getId());
         videoResponse.setUrl(video.getUrl());
         videoResponse.setName(name);
+        videoResponse.setDescription(video.getDescription());
         videoResponse.setPlayList(video.getPlayList());
         videoResponse.setHastag(video.getHastag());
         videoResponse.setDateCreated(getDiffDays(video.getDateCreated(), new Date()));

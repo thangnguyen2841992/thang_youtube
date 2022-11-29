@@ -16,6 +16,8 @@ import java.util.Date;
 public class VideoForm {
     private String name;
 
+    private String description;
+
     private String url;
 
     private Long playListId;
